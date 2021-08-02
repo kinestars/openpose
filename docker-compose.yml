@@ -1,0 +1,14 @@
+version: "2.3"
+services:
+  openpose-cuda11:
+    # build: .
+    image: openpose:cuda11
+    runtime: nvidia
+    working_dir: /app
+    volumes:
+      - $PWD:/app
+    command: tail -f /dev/null
+
+    # ./build/examples/openpose/openpose.bin --display 0 --render_pose 0 --image-dir ./images/  -write_images ./image -write_json ./json -face -hand --net_resolution -320x320
+
+    # ./build/examples/openpose/openpose.bin --display 0 --render_pose 0 --image-dir ./images/  -write_images ./image -write_json ./json --net_resolution -320x320
