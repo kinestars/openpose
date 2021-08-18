@@ -91,11 +91,10 @@ RUN apt-get update && apt-get install -y \
     libopencv-dev \
     && rm -rf /var/lib/apt/lists/*
 ENV NVIDIA_DRIVER_CAPABILITIES all
-# RUN git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose \
-#     && cd /openpose \
-#     && git submodule update --init --recursive --remote \
-#     && mkdir build \
-#     && cd build \
-#     && cmake .. \
-#     && make -j $(nproc)
-
+RUN conda init zsh
+RUN zsh
+RUN apt update && apt-get install -y net-tools htop openssh-server
+RUN service ssh start
+ENV SHELL=/usr/bin/zsh
+WORKDIR /proj
+RUN /opt/conda/bin/conda install -y jupyterlab nb_conda_kernels
