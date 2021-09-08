@@ -1,9 +1,7 @@
 from flask import Flask, jsonify, request
 import os
 from pathlib import Path
-from dotenv import dotenv_values
 
-# env_config = dotenv_values(".env") 
 # Init Flask App
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,8 +22,8 @@ app = create_app("dev")
 
 
 # Process Function
-DATA_PATH = '/input'
-OUTPUT_OBJ_PATH = '/output'
+DATA_PATH = '/ai_data/input'
+OUTPUT_OBJ_PATH = '/ai_data/output'
 
 def get_img_name(url):
     return url.split("?")[0].split("/")[-1]
@@ -38,12 +36,12 @@ def create_folder_if_not_exist(user_id):
     return input_folder, output_folder
 
 def generate_keypoints(user_id):
-    input_folder, _ = create_folder_if_not_exist(user_id)
+    input_folder, output_folder = create_folder_if_not_exist(user_id)
     try:
         # Run 
         os.system(
-            # f"./build/examples/openpose/openpose.bin --display 0 --render_pose 0 --image-dir {input_folder}  -write_json {input_folder} -face -hand"
-            f"echo 'Run Openpose'"
+            f"./build/examples/openpose/openpose.bin --display 0 --render_pose 0 --image-dir {input_folder}  -write_json {output_folder} -face -hand --net_resolution -320x320"
+            # f"echo 'Run Openpose'"
         )
         return True
     except Exception as e:
@@ -64,4 +62,4 @@ def gen_3d_body(user_id):
 
 # Start App
 if __name__ == "__main__":
-    app.run(host="0.0.0.0" , port=5004) 
+    app.run(host="0.0.0.0" , port=5003) 
